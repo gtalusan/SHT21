@@ -33,6 +33,7 @@ public:
   SHT21();
 	
   void begin();
+  void end();
   float getHumidity(void);
   float getTemperature(void);
   	

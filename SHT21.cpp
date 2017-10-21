@@ -21,21 +21,24 @@
 
 SHT21::SHT21 () {}
 
-void SHT21::begin(void){
-		
-		Wire.begin();  
-				
-	}
-	
-float SHT21::getHumidity(void)
-
+void SHT21::begin(void)
 {
-	return (-6.0 + 125.0 / 65536.0 * (float)(readSHT21(TRIGGER_HUMD_MEASURE_NOHOLD)));
+    Wire.begin();  
+}
+
+void SHT21::end(void)
+{
+    Wire.end();  
+}
+
+float SHT21::getHumidity(void)
+{
+    return (-6.0 + 125.0 / 65536.0 * (float)(readSHT21(TRIGGER_HUMD_MEASURE_NOHOLD)));
 }
 
 float SHT21::getTemperature(void)
 {
-	return (-46.85 + 175.72 / 65536.0 * (float)(readSHT21(TRIGGER_TEMP_MEASURE_NOHOLD)));
+    return (-46.85 + 175.72 / 65536.0 * (float)(readSHT21(TRIGGER_TEMP_MEASURE_NOHOLD)));
 }
 
 uint16_t SHT21::readSHT21(uint8_t command)
@@ -45,7 +48,7 @@ uint16_t SHT21::readSHT21(uint8_t command)
     Wire.beginTransmission(SHT21_ADDRESS);	
     Wire.write(command);					
     Wire.endTransmission();
-	delay(100);
+    delay(100);
 
     Wire.requestFrom(SHT21_ADDRESS, 3);
     while(Wire.available() < 3) {
@@ -55,6 +58,6 @@ uint16_t SHT21::readSHT21(uint8_t command)
     // return result
     result = ((Wire.read()) << 8);
     result += Wire.read();
-	result &= ~0x0003;   // clear two low bits (status bits)
+    result &= ~0x0003;   // clear two low bits (status bits)
     return result;
 }
